@@ -12,6 +12,9 @@ class Order {
                 $this->data[] = $row;
                 continue;
             }
+            if(!isset($row[0]) || !isset($row[1])) {
+                throw new InvalidArgumentException("Invalid data given to Order: must contain (`name` AND `price`) OR (entries `0` AND `1`).");
+            }
             $this->data[] = array("name" => $row[0], "price" => $row[1]);
         }
     }

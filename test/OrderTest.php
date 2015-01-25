@@ -21,6 +21,15 @@ class OrderTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($order->getLine(1)["name"], "second");
         $this->assertEquals($order->getLine(1)["price"], 112);
     }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testCreatingWithInvalidDataFails() {
+        $order = new Order(array(
+            array("name" => "hello", 12)
+        ));
+    }
 }
 
 ?>
