@@ -57,6 +57,10 @@ class Order {
         }
         return $this->shipping["altName"];
     }
+    
+    public function addShipping($price, $altName = "Shipping") {
+        $this->shipping = array("altName" => $altName, "price" => $price);
+    }
 }
 
 ?>
