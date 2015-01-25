@@ -24,7 +24,7 @@ class PayPalAdapter extends PaymentAdapter {
 
         //Get options/reasonable defaults
         $this->options = array(
-            "VERSION" => 109.0,
+            "VERSION" => "109.0",
             "SOLUTIONTYPE" => "Sole",
             "LANDINGPAGE" => "Billing",
             "PAYMENTREQUEST_0_PAYMENTACTION" => "Sale",
@@ -82,11 +82,12 @@ class PayPalAdapter extends PaymentAdapter {
         $options["CANCELURL"] = $this->composeCancelUrl($identifyingValue);
         $options["METHOD"] = "SetExpressCheckout";
         
-        $data = implode("&", $options);
+        $data = $this->convertOptionsToKeyValueData($options);
         $response = $this->requester->post($this->apiUrl, $data);
         $responseData = $this->parseData($response);
         
         if($responseData["ACK"] == "Failure") {
+            trigger_error("Original data was ".$data);
             throw new Exception("Something went wrong while setting up express checkout! ".json_encode($responseData));
         }
         
@@ -103,8 +104,9 @@ class PayPalAdapter extends PaymentAdapter {
             $item = $order->getLine($i);
             $options["L_PAYMENTREQUEST_0_NAME".$i] = urlencode($item["name"]);
             //TODO: Maybe L_PAYMENTREQUEST_0_{NUMBER,DESC}.$i (an item number) is required?
-            $options["L_PAYMENTREQUEST_0_AMT".$i] = urlencode($item["priceBeforeTax"]);
-            $options["L_PAYMENTREQUEST_0_QTY".$i] = urlencode($item["quantity"]);
+            $options["L_PAYMENTREQUEST_0_AMT".$i] = urlencode(number_format($item["priceBeforeTax"],2));
+            //TODO: Support quantities
+            $options["L_PAYMENTREQUEST_0_QTY".$i] = urlencode(1);
         }
         return $options;
     }
@@ -132,6 +134,18 @@ class PayPalAdapter extends PaymentAdapter {
         return $this->composeUrl($this->cancelUrl, array(
             $this->identifyingArgumentName => $id
         ));
+    }
+    
+    private function convertOptionsToKeyValueData($options) {
+        $first = true;
+        $data = "";
+        foreach($options as $key => $value) {
+            if(!$first) $data .= "&";
+            else $first = false;
+            
+            $data .= $key."=".$value;
+        }
+        return $data;
     }
     
     private function parseData($kvData) {
