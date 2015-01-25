@@ -25,7 +25,9 @@ class PayPalAdapter extends PaymentAdapter {
             "VERSION" => 109.0,
             "SOLUTIONTYPE" => "Sole",
             "LANDINGPAGE" => "Billing",
-            "PAYMENTREQUEST_0_PAYMENTACTION" => "Sale"
+            "PAYMENTREQUEST_0_PAYMENTACTION" => "Sale",
+            "LOCALECODE" => "en_US",
+            "PAYMENTREQUEST_0_CURRENCYCODE" => "USD"
         );
         foreach($options as $key => $value) {
             $key = strtoupper($key);
@@ -43,6 +45,9 @@ class PayPalAdapter extends PaymentAdapter {
     
     public function preparePayment($identifyingValue, Order $order) {
         $options = $this->getOptionsWithLineItems($order);
+        $options["PAYMENTREQUEST_0_ITEMAMT"] = urlencode(number_format($order->getTotalPriceBeforeTax(), 2));
+        $options["PAYMENTREQUEST_0_TAXAMT"] = urlencode(number_format($order->getTotalTax(), 2));
+        $options["PAYMENTREQUEST_0_AMT"] = urlencode(number_format($order->getTotalPrice(), 2));
         
         $options["NOSHIPPING"] = 1;
         if($order->hasShipping()) {
@@ -66,6 +71,7 @@ class PayPalAdapter extends PaymentAdapter {
             $options["L_PAYMENTREQUEST_0_AMT".$i] = urlencode($item["priceBeforeTax"]);
             $options["L_PAYMENTREQUEST_0_QTY".$i] = urlencode($item["quantity"]);
         }
+        return $options;
     }
     
     private function composeReturnUrl($id) {
