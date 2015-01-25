@@ -1,17 +1,9 @@
 <?php
 
-class PreparedPayment {
-    public static function fromSerialized($serializedData) {
-        
-    }
-    
-    public function getPaymentLink() {
-        
-    }
-    
-    public function getSerializedData() {
-        
-    }
+abstract class PreparedPayment {
+    abstract protected function fromSerialized($serializedData);
+    abstract protected function getCheckoutLink();
+    abstract protected function getSerializedData();
 }
 
 ?>
