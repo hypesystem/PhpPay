@@ -20,23 +20,32 @@ class Order {
             return;
         }
         if(isset($line["name"]) && isset($line["price"])) {
+            if(isset($line["quantity"])) {
+                $this->addLine($line["name"], $line["price"], $line["quantity"]);
+                return;
+            }
             $this->addLine($line["name"], $line["price"]);
             return;
         }
         if(!isset($line[0]) || !isset($line[1])) {
             throw new InvalidArgumentException("Invalid data given to Order: must contain (`name` AND `price`) OR (entries `0` AND `1`).");
         }
+        if(isset($line[2])) {
+            $this->addLine($line[0], $line[1], $line[2]);
+            return;
+        }
         $this->addLine($line[0], $line[1]);
     }
     
-    public function addLine($name, $price) {
+    public function addLine($name, $price, $quantity = 1) {
         $priceBeforeTax = round($price / (1 + $this->taxPct / 100),2);
         $tax = $price - $priceBeforeTax;
         $this->data[] = array(
                 "name" => $name,
                 "price" => $price,
                 "priceBeforeTax" => $priceBeforeTax,
-                "tax" => $tax
+                "tax" => $tax,
+                "quantity" => $quantity
         );
     }
     
