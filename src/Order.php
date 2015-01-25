@@ -35,6 +35,10 @@ class Order {
     public function addLines($data) {
         $this->parseAndAddData($data);
     }
+    
+    public function addLine($name, $price) {
+        $this->parseAndAddData(array(array($name,$price)));
+    }
 
     public function hasShipping() {
         return $this->shipping != null;

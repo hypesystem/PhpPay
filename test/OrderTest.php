@@ -51,6 +51,24 @@ class OrderTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($order->hasShipping(), false);
     }
     
+    public function testAddingASingleLine() {
+        $order = new Order();
+        
+        $this->assertEquals($order->getLineCount(), 0);
+        
+        $order->addLine("hello", 123.2);
+        
+        $this->assertEquals($order->getLineCount(), 1);
+        $this->assertEquals($order->getLine(0)["name"], "hello");
+        $this->assertEquals($order->getLine(0)["price"], 123.2);
+        
+        $order->addLine("second", 112);
+        
+        $this->assertEquals($order->getLineCount(), 2);
+        $this->assertEquals($order->getLine(1)["name"], "second");
+        $this->assertEquals($order->getLine(1)["price"], 112);
+    }
+    
     public function testCreatingWithShipping() {
         $order = new Order(array(
             array("name" => "hello", "price" => 123.2),
