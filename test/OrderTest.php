@@ -126,6 +126,16 @@ class OrderTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($order->getLine(0)["tax"], 9.09);
         $this->assertEquals($order->getLine(1)["priceBeforeTax"], 54.55);
         $this->assertEquals($order->getLine(1)["tax"], 5.45);
+        
+        $order = new Order(20, array(
+            array("name" => "hello", "price" => 100),
+            array("second", 60)
+        ));
+        
+        $this->assertEquals($order->getLine(0)["priceBeforeTax"], 83.33);
+        $this->assertEquals($order->getLine(0)["tax"], 16.67);
+        $this->assertEquals($order->getLine(1)["priceBeforeTax"], 50);
+        $this->assertEquals($order->getLine(1)["tax"], 10);
     }
 }
 
