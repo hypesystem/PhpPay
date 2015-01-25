@@ -61,7 +61,10 @@ class PayPalAdapter extends PaymentAdapter {
         $lineItemCount = $order->getLineCount();
         for($i = 0; $i < $lineItemCount; $i++) {
             $item = $order->getLine($i);
-            
+            $options["L_PAYMENTREQUEST_0_NAME".$i] = urlencode($item["name"]);
+            //TODO: Maybe L_PAYMENTREQUEST_0_{NUMBER,DESC}.$i (an item number) is required?
+            $options["L_PAYMENTREQUEST_0_AMT".$i] = urlencode($item["priceBeforeTax"]);
+            $options["L_PAYMENTREQUEST_0_QTY".$i] = urlencode($item["quantity"]);
         }
     }
     
