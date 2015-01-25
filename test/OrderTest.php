@@ -158,6 +158,39 @@ class OrderTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($order->getLine(4)["quantity"], 3);
         $this->assertEquals($order->getLine(4)["price"], 130);
     }
+    
+    public function testGettingTotalPrice() {
+        $order = new Order(10, array(
+            array("name" => "hello", "price" => 100),
+            array("second", 60),
+            array("quantized", 120, 3),
+            array("name" => "labelled", "price" => 200, "quantity" => 4)
+        ));
+        
+        $this->assertEquals($order->getTotalPrice(), 100 + 60 + 120 + 200);
+    }
+    
+    public function testGettingTotalPriceBeforeTax() {
+        $order = new Order(10, array(
+            array("name" => "hello", "price" => 100),
+            array("second", 60),
+            array("quantized", 120, 3),
+            array("name" => "labelled", "price" => 200, "quantity" => 4)
+        ));
+        
+        $this->assertEquals($order->getTotalPriceBeforeTax(), 90.91 + 54.55 + 109.09 + 181.82);
+    }
+    
+    public function testGettingTotalTax() {
+        $order = new Order(10, array(
+            array("name" => "hello", "price" => 100),
+            array("second", 60),
+            array("quantized", 120, 3),
+            array("name" => "labelled", "price" => 200, "quantity" => 4)
+        ));
+        
+        $this->assertEquals($order->getTotalTax(), 9.09 + 5.45 + 10.91 + 18.18);
+    }
 }
 
 ?>
