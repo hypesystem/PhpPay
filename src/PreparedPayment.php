@@ -1,7 +1,7 @@
 <?php
 
 abstract class PreparedPayment {
-    abstract protected function fromSerialized($serializedData);
+    abstract protected static function fromSerializedData($serializedData);
     abstract protected function getCheckoutLink();
     abstract protected function getSerializedData();
 }
