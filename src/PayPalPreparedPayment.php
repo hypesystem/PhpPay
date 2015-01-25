@@ -39,6 +39,11 @@ class PayPalPreparedPayment extends PreparedPayment {
     }
     
     public function execute($payerId) {
+        //GetExpressCheckoutDetails
+        
+        //DoExpressCheckoutPayment
+        
+        //Return info
         
     }
 }
