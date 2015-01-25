@@ -1,11 +1,12 @@
 <?php
 
 class PayPalPreparedPayment extends PreparedPayment {
-    public static function fromSerializedData($serializedData) {
+    public static function fromSerializedData($requester, $serializedData) {
         $dataAsArray = json_decode($serializedData);
         if($dataAsArray["type"] != get_class($this)) {
             throw new InvalidArgumentException("Type of serialized data {$dataAsArray["type"]} does not match this prepared payment class {get_class($this)}.");
         }
+        return new PayPalPreparedPayment($requester, $dataAsArray["id"], $dataAsArray["checkoutUrl"], $dataAsArray["apiUrl"], $dataAsArray["token"], $dataAsArray["version"], $dataAsArray["user"], $dataAsArray["pwd"], $dataAsArray["signature"]);
     }
     
     public function __construct($requester, $id, $checkoutUrl, $apiUrl, $token, $version, $user, $pwd, $signature) {
