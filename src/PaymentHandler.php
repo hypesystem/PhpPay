@@ -5,8 +5,8 @@ class PaymentHandler {
         $this->adapter = $adapter;
     }
     
-    public function preparePayment(Order $order) {
-        //should return a PreparedPayment
+    public function preparePayment($id, Order $order) {
+        $this->adapter->preparePayment($id, $order);
     }
 }
 
