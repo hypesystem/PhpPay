@@ -149,11 +149,14 @@ class OrderTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($order->getLine(0)["quantity"], 1);
         $this->assertEquals($order->getLine(1)["quantity"], 1);
         $this->assertEquals($order->getLine(2)["quantity"], 3);
+        $this->assertEquals($order->getLine(2)["price"], 120);
         $this->assertEquals($order->getLine(3)["quantity"], 4);
+        $this->assertEquals($order->getLine(3)["price"], 200);
         
         $order->addLine("more", 130, 3);
         
         $this->assertEquals($order->getLine(4)["quantity"], 3);
+        $this->assertEquals($order->getLine(4)["price"], 130);
     }
 }
 
