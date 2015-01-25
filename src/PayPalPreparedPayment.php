@@ -8,8 +8,12 @@ class PayPalPreparedPayment extends PreparedPayment {
         }
     }
     
-    public function __construct($checkoutUrl, $token) {
-        $this->token = "undefined";
+    public function __construct($checkoutUrl, $token, $user, $pwd, $signature) {
+        $this->token = $token;
+        $this->checkoutUrl = $checkoutUrl;
+        $this->user = $user;
+        $this->pwd = $pwd;
+        $this->signature = $signature;
     }
     
     public function getCheckoutLink() {
@@ -19,7 +23,11 @@ class PayPalPreparedPayment extends PreparedPayment {
     public function getSerializedData() {
         return json_encode(array(
             "type" => get_class($this),
-            "token" => $this->token
+            "token" => $this->token,
+            "checkoutUrl" => $this->checkoutUrl,
+            "user" => $this->user,
+            "pwd" => $this->pwd,
+            "signature" => $this->signature
         ));
     }
     

@@ -1,7 +1,8 @@
 <?php
 
 class PayPalAdapter extends PaymentAdapter {
-    public function __construct($returnUrl, $cancelUrl, $options = array(), $identifyingArgumentName = "id", $useSandbox = false) {
+    public function __construct($requester, $returnUrl, $cancelUrl, $options = array(), $identifyingArgumentName = "id", $useSandbox = false) {
+        $this->requester = $requester;
         $this->requireUrl($returnUrl);
         $this->requireUrl($cancelUrl);
         $this->requireOptions($options, array("USER", "PWD", "SIGNATURE"));
@@ -58,6 +59,13 @@ class PayPalAdapter extends PaymentAdapter {
         $options["RETURNURL"] = $this->composeReturnUrl($identifyingValue);
         $options["CANCELURL"] = $this->composeCancelUrl($identifyingValue);
         $options["METHOD"] = "SetExpressCheckout";
+        
+        $data = implode("&", $options);
+        $response = $this->requester->post($this->apiUrl, $data);
+        $responseData = $this->parseData($response);
+        $token = $responseData["TOKEN"];
+        
+        return new PayPalPreparedPayment($this->expressCheckoutUrl, $token, $options["USER"], $options["PWD"], $options["SIGNATURE"]);
     }
     
     private function getOptionsWithLineItems(Order $order) {
