@@ -14,7 +14,7 @@ class Requester {
         
         $result = curl_exec($ch);
         if(!$result) {
-            throw new Exception("Something went wrong while POSTing to $url: ".curl_error($ch));
+            throw new Exception("Something went wrong while POSTing to $url: ".curl_error($ch).". (Original request data was $data.)");
         }
         return $result;
     }
