@@ -45,6 +45,27 @@ class PayPalAdapter extends PaymentAdapter {
         }
     }
     
+    private function requireUrl($url) {
+        if(!preg_match('/^https?:\/\/.+\..+$/', $url)) {
+            throw new InvalidArgumentException("Argument required to be an url, but was "+$url);
+        }
+    }
+    
+    private function requireOptions($options, $requiredOptions) {
+        foreach($requiredOptions as $required) {
+            $found = false;
+            foreach($options as $actualKey => $val) {
+                if(strtoupper($actualKey) == $required) {
+                    $found = true;
+                    break;
+                }
+            }
+            if(!$found) {
+                throw new InvalidArgumentException("Missing required argument $required from options!");
+            }
+        }
+    }
+    
     public function preparePayment($identifyingValue, Order $order) {
         $options = $this->getOptionsWithLineItems($order);
         $options["PAYMENTREQUEST_0_ITEMAMT"] = urlencode(number_format($order->getTotalPriceBeforeTax(), 2));
