@@ -30,6 +30,7 @@ $order = new Order(10, array(
     array("Price item 2", 190)
 ));
 $order->addShipping(100);
+
 $paymentId = md5(rand());
 $payment = $paymentHandler->preparePayment($paymentId, $order);
 

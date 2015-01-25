@@ -6,7 +6,7 @@ class PaymentHandler {
     }
     
     public function preparePayment($id, Order $order) {
-        $this->adapter->preparePayment($id, $order);
+        return $this->adapter->preparePayment($id, $order);
     }
 }
 

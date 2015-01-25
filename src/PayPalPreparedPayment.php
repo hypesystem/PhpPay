@@ -20,7 +20,7 @@ class PayPalPreparedPayment extends PreparedPayment {
         $this->signature = $signature;
     }
     
-    public function getCheckoutLink() {
+    public function getCheckoutUrl() {
         return $this->checkoutUrl."?cmd=_express-checkout&token=".$this->token;
     }
     
