@@ -137,6 +137,24 @@ class OrderTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($order->getLine(1)["priceBeforeTax"], 50);
         $this->assertEquals($order->getLine(1)["tax"], 10);
     }
+    
+    public function testGettingQuantityOfElementes() {
+        $order = new Order(10, array(
+            array("name" => "hello", "price" => 100),
+            array("second", 60),
+            array("quantized", 120, 3),
+            array("name" => "labelled", "price" => 200, "quantity" => 4)
+        ));
+        
+        $this->assertEquals($order->getLine(0)["quantity"], 1);
+        $this->assertEquals($order->getLine(1)["quantity"], 1);
+        $this->assertEquals($order->getLine(2)["quantity"], 3);
+        $this->assertEquals($order->getLine(3)["quantity"], 4);
+        
+        $order->addLine("more", 130, 3);
+        
+        $this->assertEquals($order->getLine(4)["quantity"], 3);
+    }
 }
 
 ?>
