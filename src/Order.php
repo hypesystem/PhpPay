@@ -10,19 +10,34 @@ class Order {
     
     private function parseAndAddData($data) {
         foreach($data as $row) {
-            if(isset($row["type"]) && $row["type"] == "shipping") {
-                $this->shipping = array("altName" => $row["altName"], "price" => $row["price"]);
-                continue;
-            }
-            if(isset($row["name"]) && isset($row["price"])) {
-                $this->data[] = $row;
-                continue;
-            }
-            if(!isset($row[0]) || !isset($row[1])) {
-                throw new InvalidArgumentException("Invalid data given to Order: must contain (`name` AND `price`) OR (entries `0` AND `1`).");
-            }
-            $this->data[] = array("name" => $row[0], "price" => $row[1]);
+            $this->parseAndAddLine($row);
         }
+    }
+    
+    private function parseAndAddLine($line) {
+        if(isset($line["type"]) && $line["type"] == "shipping") {
+            $this->shipping = array("altName" => $line["altName"], "price" => $line["price"]);
+            return;
+        }
+        if(isset($line["name"]) && isset($line["price"])) {
+            $this->addLine($line["name"], $line["price"]);
+            return;
+        }
+        if(!isset($line[0]) || !isset($line[1])) {
+            throw new InvalidArgumentException("Invalid data given to Order: must contain (`name` AND `price`) OR (entries `0` AND `1`).");
+        }
+        $this->addLine($line[0], $line[1]);
+    }
+    
+    public function addLine($name, $price) {
+        $priceBeforeTax = round($price / (1 + $this->taxPct / 100),2);
+        $tax = $price - $priceBeforeTax;
+        $this->data[] = array(
+                "name" => $name,
+                "price" => $price,
+                "priceBeforeTax" => $priceBeforeTax,
+                "tax" => $tax
+        );
     }
     
     public function getTaxPercentage() {
@@ -39,10 +54,6 @@ class Order {
     
     public function addLines($data) {
         $this->parseAndAddData($data);
-    }
-    
-    public function addLine($name, $price) {
-        $this->parseAndAddData(array(array($name,$price)));
     }
 
     public function hasShipping() {

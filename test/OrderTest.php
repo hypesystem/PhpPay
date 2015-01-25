@@ -115,6 +115,18 @@ class OrderTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($order->getShippingPrice(), 12);
         $this->assertEquals($order->getShippingAltName(), "Shipping");
     }
+    
+    public function testGettingTaxedAndUntaxedPrices() {
+        $order = new Order(10, array(
+            array("name" => "hello", "price" => 100),
+            array("second", 60)
+        ));
+        
+        $this->assertEquals($order->getLine(0)["priceBeforeTax"], 90.91);
+        $this->assertEquals($order->getLine(0)["tax"], 9.09);
+        $this->assertEquals($order->getLine(1)["priceBeforeTax"], 54.55);
+        $this->assertEquals($order->getLine(1)["tax"], 5.45);
+    }
 }
 
 ?>
