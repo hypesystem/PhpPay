@@ -65,7 +65,7 @@ class PayPalAdapter extends PaymentAdapter {
         $responseData = $this->parseData($response);
         $token = $responseData["TOKEN"];
         
-        return new PayPalPreparedPayment($this->expressCheckoutUrl, $token, $options["USER"], $options["PWD"], $options["SIGNATURE"]);
+        return new PayPalPreparedPayment($identifyingValue, $this->expressCheckoutUrl, $token, $options["USER"], $options["PWD"], $options["SIGNATURE"]);
     }
     
     private function getOptionsWithLineItems(Order $order) {
