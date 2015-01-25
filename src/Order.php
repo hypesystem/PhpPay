@@ -92,6 +92,9 @@ class Order {
         foreach($this->data as $line) {
             $total += $line["price"];
         }
+        if($this->hasShipping()) {
+            $total += $this->getShippingPrice();
+        }
         return $total;
     }
     
