@@ -85,6 +85,11 @@ class PayPalAdapter extends PaymentAdapter {
         $data = implode("&", $options);
         $response = $this->requester->post($this->apiUrl, $data);
         $responseData = $this->parseData($response);
+        
+        if($responseData["ACK"] == "Failure") {
+            throw new Exception("Something went wrong while setting up express checkout! ".json_encode($responseData));
+        }
+        
         $token = $responseData["TOKEN"];
         
         return new PayPalPreparedPayment($this->requester, $identifyingValue, $this->expressCheckoutUrl, $this->apiUrl, $token, $options["VERSION"], $options["USER"], $options["PWD"], $options["SIGNATURE"]);
@@ -127,6 +132,17 @@ class PayPalAdapter extends PaymentAdapter {
         return $this->composeUrl($this->cancelUrl, array(
             $this->identifyingArgumentName => $id
         ));
+    }
+    
+    private function parseData($kvData) {
+        $pairs = explode("&", $kvData);
+        $data = array();
+        foreach($pairs as $pair) {
+            if($pair == "") continue;
+            $kv = explode("=", $pair);
+            $data[$kv[0]] = urldecode($kv[1]);
+        }
+        return $data;
     }
 }
 
