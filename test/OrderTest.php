@@ -10,8 +10,10 @@ function phpPayAutoloader($class) {
 spl_autoload_register("phpPayAutoloader");
 
 class OrderTest extends PHPUnit_Framework_TestCase {
+    //NOTE: Prices are including tax. The tax is used for calculations when adding up the order.
+    
     public function testCreatingAndGettingOrderLines() {
-        $order = new Order(array(
+        $order = new Order(10, array(
             array("name" => "hello", "price" => 123.2),
             array("second", 112)
         ));
@@ -28,13 +30,13 @@ class OrderTest extends PHPUnit_Framework_TestCase {
      * @expectedException InvalidArgumentException
      */
     public function testCreatingWithInvalidDataFails() {
-        $order = new Order(array(
+        $order = new Order(10, array(
             array("name" => "hello", 12)
         ));
     }
     
     public function testCreatingEmptyOrderAndAddingDataLater() {
-        $order = new Order();
+        $order = new Order(10);
         
         $this->assertEquals($order->getLineCount(), 0);
         
@@ -52,7 +54,7 @@ class OrderTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testAddingASingleLine() {
-        $order = new Order();
+        $order = new Order(10);
         
         $this->assertEquals($order->getLineCount(), 0);
         
@@ -70,7 +72,7 @@ class OrderTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testCreatingWithShipping() {
-        $order = new Order(array(
+        $order = new Order(10, array(
             array("name" => "hello", "price" => 123.2),
             array("second", 112),
             array("type" => "shipping", "altName" => "Transport cost", "price" => 12)
@@ -87,7 +89,7 @@ class OrderTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testAddingShipping() {
-        $order = new Order(array(
+        $order = new Order(10, array(
             array("hello", 123.2)
         ));
 
@@ -101,7 +103,7 @@ class OrderTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testAddingShippingWithNoAlternativeName() {
-        $order = new Order(array(
+        $order = new Order(10, array(
             array("hello", 123.2)
         ));
 

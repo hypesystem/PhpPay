@@ -1,7 +1,8 @@
 <?php
 
 class Order {
-    public function __construct($data = array()) {
+    public function __construct($taxPct, $data = array()) {
+        $this->taxPct = $taxPct;
         $this->data = array();
         $this->shipping = null;
         $this->parseAndAddData($data);
@@ -22,6 +23,10 @@ class Order {
             }
             $this->data[] = array("name" => $row[0], "price" => $row[1]);
         }
+    }
+    
+    public function getTaxPercentage() {
+        return $this->taxPct;
     }
     
     public function getLine($line) {
