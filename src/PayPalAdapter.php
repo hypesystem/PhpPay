@@ -43,6 +43,13 @@ class PayPalAdapter extends PaymentAdapter {
     
     public function preparePayment($identifyingValue, Order $order) {
         $options = $this->getOptionsWithLineItems($order);
+        
+        $options["NOSHIPPING"] = 1;
+        if($order->hasShipping()) {
+            $options["NOSHIPPING"] = 0;
+            $options["PAYMENTREQUEST_0_SHIPPINGAMT"] = urlencode(number_format($order->getShippingPrice(), 2));
+        }
+        
         $options["RETURNURL"] = $this->composeReturnUrl($identifyingValue);
         $options["CANCELURL"] = $this->composeCancelUrl($identifyingValue);
         $options["METHOD"] = "SetExpressCheckout";
