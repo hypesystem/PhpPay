@@ -86,6 +86,30 @@ class Order {
     public function addShipping($price, $altName = "Shipping") {
         $this->shipping = array("altName" => $altName, "price" => $price);
     }
+    
+    public function getTotalPrice() {
+        $total = 0;
+        foreach($this->data as $line) {
+            $total += $line["price"];
+        }
+        return $total;
+    }
+    
+    public function getTotalPriceBeforeTax() {
+        $total = 0;
+        foreach($this->data as $line) {
+            $total += $line["priceBeforeTax"];
+        }
+        return $total;
+    }
+    
+    public function getTotalTax() {
+        $total = 0;
+        foreach($this->data as $line) {
+            $total += $line["tax"];
+        }
+        return $total;
+    }
 }
 
 ?>
