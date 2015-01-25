@@ -13,7 +13,7 @@ class PayPalPreparedPayment extends PreparedPayment {
         $this->id = $id;
         $this->token = $token;
         $this->checkoutUrl = $checkoutUrl;
-        $this->apiUrl = $apiUrl,
+        $this->apiUrl = $apiUrl;
         $this->version = $version;
         $this->user = $user;
         $this->pwd = $pwd;
