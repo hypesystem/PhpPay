@@ -1,5 +1,14 @@
 <?php
 
+include "../../vendor/autoload.php";
+function phpPayAutoloader($class) {
+    $file = "../../src/$class.php";
+    if(file_exists($file)) {
+        include $file;
+    }
+}
+spl_autoload_register("phpPayAutoloader");
+
 $thisUrl = $_REQUEST["thisUrl"];
 
 // Our simple little requester
@@ -21,7 +30,7 @@ $order = new Order(10, array(
     array("Price item 2", 190)
 ));
 $order->addShipping(100);
-$paymentId = md5();
+$paymentId = md5(rand());
 $payment = $paymentHandler->preparePayment($paymentId, $order);
 
 //We need to save the payment somewhere locally, to get it back later.
