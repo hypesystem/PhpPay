@@ -8,7 +8,7 @@ class PayPalPreparedPayment extends PreparedPayment {
         }
     }
     
-    public function __construct($id, $checkoutUrl, $apiUrl, $token, $version, $user, $pwd, $signature) {
+    public function __construct($requester, $id, $checkoutUrl, $apiUrl, $token, $version, $user, $pwd, $signature) {
         $this->id = $id;
         $this->token = $token;
         $this->checkoutUrl = $checkoutUrl;
