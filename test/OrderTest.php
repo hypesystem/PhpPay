@@ -85,6 +85,34 @@ class OrderTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($order->getShippingPrice(), 12);
         $this->assertEquals($order->getShippingAltName(), "Transport cost");
     }
+
+    public function testAddingShipping() {
+        $order = new Order(array(
+            array("hello", 123.2)
+        ));
+
+        $this->assertEquals($order->hasShipping(), false);
+
+        $order->addShipping(12, "Transport cost");
+
+        $this->assertEquals($order->hasShipping(), true);
+        $this->assertEquals($order->getShippingPrice(), 12);
+        $this->assertEquals($order->getShippingAltName(), "Transport cost");
+    }
+
+    public function testAddingShippingWithNoAlternativeName() {
+        $order = new Order(array(
+            array("hello", 123.2)
+        ));
+
+        $this->assertEquals($order->hasShipping(), false);
+
+        $order->addShipping(12);
+
+        $this->assertEquals($order->hasShipping(), true);
+        $this->assertEquals($order->getShippingPrice(), 12);
+        $this->assertEquals($order->getShippingAltName(), "Shipping");
+    }
 }
 
 ?>
