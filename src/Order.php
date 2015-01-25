@@ -1,7 +1,7 @@
 <?php
 
 class Order {
-    public function __construct($data) {
+    public function __construct($data = array()) {
         $this->data = array();
         $this->parseAndAddData($data);
     }
@@ -21,6 +21,14 @@ class Order {
     
     public function getLine($line) {
         return $this->data[$line];
+    }
+    
+    public function getLineCount() {
+        return sizeof($this->data);
+    }
+    
+    public function addLines($data) {
+        $this->parseAndAddData($data);
     }
 }
 

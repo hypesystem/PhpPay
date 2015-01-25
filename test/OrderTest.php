@@ -16,6 +16,7 @@ class OrderTest extends PHPUnit_Framework_TestCase {
             array("second", 112)
         ));
         
+        $this->assertEquals($order->getLineCount(), 2);
         $this->assertEquals($order->getLine(0)["name"], "hello");
         $this->assertEquals($order->getLine(0)["price"], 123.2);
         $this->assertEquals($order->getLine(1)["name"], "second");
@@ -29,6 +30,23 @@ class OrderTest extends PHPUnit_Framework_TestCase {
         $order = new Order(array(
             array("name" => "hello", 12)
         ));
+    }
+    
+    public function testCreatingEmptyOrderAndAddingDataLater() {
+        $order = new Order();
+        
+        $this->assertEquals($order->getLineCount(), 0);
+        
+        $order->addLines(array(
+            array("name" => "hello", "price" => 123.2),
+            array("second", 112)
+        ));
+        
+        $this->assertEquals($order->getLineCount(), 2);
+        $this->assertEquals($order->getLine(0)["name"], "hello");
+        $this->assertEquals($order->getLine(0)["price"], 123.2);
+        $this->assertEquals($order->getLine(1)["name"], "second");
+        $this->assertEquals($order->getLine(1)["price"], 112);
     }
 }
 
