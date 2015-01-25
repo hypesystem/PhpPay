@@ -3,11 +3,16 @@
 class Order {
     public function __construct($data = array()) {
         $this->data = array();
+        $this->shipping = null;
         $this->parseAndAddData($data);
     }
     
     private function parseAndAddData($data) {
         foreach($data as $row) {
+            if(isset($row["type"]) && $row["type"] == "shipping") {
+                $this->shipping = array("altName" => $row["altName"], "price" => $row["price"]);
+                continue;
+            }
             if(isset($row["name"]) && isset($row["price"])) {
                 $this->data[] = $row;
                 continue;
@@ -29,6 +34,24 @@ class Order {
     
     public function addLines($data) {
         $this->parseAndAddData($data);
+    }
+
+    public function hasShipping() {
+        return $this->shipping != null;
+    }
+
+    public function getShippingPrice() {
+        if(!$this->hasShipping()) {
+            throw new Exception("Cannot get Shipping price when order does not have shipping. Check Order#hasShipping() first.");
+        }
+        return $this->shipping["price"];
+    }
+
+    public function getShippingAltName() {
+        if(!$this->hasShipping()) {
+            throw new Exception("Cannot get Shipping alt name when order does not have shipping. Check Order#hasShipping() first.");
+        }
+        return $this->shipping["altName"];
     }
 }
 
