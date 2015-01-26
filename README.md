@@ -8,6 +8,33 @@ Cool.
 
 To get to know the library, see the [examples](EXAMPLES.md).
 
+There are basically two different ways of handling payments.
+This library will strive to eventually support both.
+We are starting out with the simplest and most-commonly used (per-project, not per-end-user) one:
+the Checkout model.
+
+The Checkout Model
+------------------
+
+In the Checkout Model, the user is sent off the product website to complete their payment at a third party.
+The thirdt party is hard to get rid off, and using the checkout model saves development time:
+no longer is there a need to develop the actual checkout window itself.
+
+![The Checkout Model Illustrated](https://raw.githubusercontent.com/hypesystem/PhpPay/master/TheCheckoutModel.png)
+
+**Known Checkout-Model Payment Methods**
+
+- PayPal Express Checkout
+- ePay (Danish)
+- NETS (Danish)
+
+There are some alternatives on this general model.
+These do not fit directly into the code written for this library:
+
+**Stripe Checkout** overlays the checkout window on your current website, but still requires you to handle the data.
+
+**Gumroad Overlay** is basically a bit of javascript which lets them handle all of the hard work.
+
 Disclaimer
 ==========
 
