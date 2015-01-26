@@ -6,6 +6,13 @@ What if there was a single interface that could be configured to use any of the 
 This is an attempt at that.
 Cool.
 
+Disclaimer
+==========
+
+This library is not just pre-1.0.
+It is pre-0.1.
+Be very cautions (read the code) before using it in production.
+
 License
 =======
 
