@@ -48,6 +48,7 @@ You should not use this model if you don't use encrypted connections, and your s
 **Known On-Site Model Payment Methods**
 
 - Stripe
+- PayPal
 
 Disclaimer
 ==========
