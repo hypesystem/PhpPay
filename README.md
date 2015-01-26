@@ -6,6 +6,8 @@ What if there was a single interface that could be configured to use any of the 
 This is an attempt at that.
 Cool.
 
+To get to know the library, see the [examples](EXAMPLES.md).
+
 Disclaimer
 ==========
 
