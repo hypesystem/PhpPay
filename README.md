@@ -35,6 +35,19 @@ These do not fit directly into the code written for this library:
 
 **Gumroad Overlay** is basically a bit of javascript which lets them handle all of the hard work.
 
+The On-Site Model
+-----------------
+
+For big business, you will want complete control over the payment.
+This model leaves the product website to take care of getting user input.
+You should not use this model if you don't use encrypted connections, and your site has to be convincing, or customers won't trust you with their credit card information.
+
+![The On-Site Model Illustrated](https://raw.githubusercontent.com/hypesystem/PhpPay/master/TheOnSiteModel.png)
+
+**Known On-Site Model Payment Methods**
+
+- Stripe
+
 Disclaimer
 ==========
 
