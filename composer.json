@@ -1,4 +1,14 @@
 {
+    "name": "hypesystem/php-pay",
+    "type": "library",
+    "description": "Totally cool payments abstraction",
+    "keywords": [ "payments", "paypal", "checkout" ],
+    "authors": [
+        {
+            "name": "Niels Roesen Abildgaard",
+            "email": "me@hypesystem.dk"
+        }
+    ],
     "require-dev": {
         "phpunit/phpunit": "4.4.*"
     },
