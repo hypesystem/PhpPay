@@ -27,6 +27,7 @@ no longer is there a need to develop the actual checkout window itself.
 - PayPal Express Checkout
 - ePay (Danish)
 - NETS (Danish)
+- Checkout by Amazon
 
 There are some alternatives on this general model.
 These do not fit directly into the code written for this library:
