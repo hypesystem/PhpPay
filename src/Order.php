@@ -1,6 +1,10 @@
 <?php
 
 namespace PhpPay {
+    
+    use \Exception;
+    use \InvalidArgumentException;
+    
     class Order {
         public function __construct($taxPct, $data = array()) {
             $this->taxPct = $taxPct;
@@ -29,7 +33,7 @@ namespace PhpPay {
                 return;
             }
             if(!isset($line[0]) || !isset($line[1])) {
-                throw new \InvalidArgumentException("Invalid data given to Order: must contain (`name` AND `price`) OR (entries `0` AND `1`).");
+                throw new InvalidArgumentException("Invalid data given to Order: must contain (`name` AND `price`) OR (entries `0` AND `1`).");
             }
             if(isset($line[2])) {
                 $this->addLine($line[0], $line[1], $line[2]);
@@ -72,14 +76,14 @@ namespace PhpPay {
     
         public function getShippingPrice() {
             if(!$this->hasShipping()) {
-                throw new \Exception("Cannot get Shipping price when order does not have shipping. Check Order#hasShipping() first.");
+                throw new Exception("Cannot get Shipping price when order does not have shipping. Check Order#hasShipping() first.");
             }
             return $this->shipping["price"];
         }
     
         public function getShippingAltName() {
             if(!$this->hasShipping()) {
-                throw new \Exception("Cannot get Shipping alt name when order does not have shipping. Check Order#hasShipping() first.");
+                throw new Exception("Cannot get Shipping alt name when order does not have shipping. Check Order#hasShipping() first.");
             }
             return $this->shipping["altName"];
         }
