@@ -69,7 +69,7 @@ namespace PhpPay\PayPal {
             }
         }
         
-        public function preparePayment($identifyingValue, Order $order) {
+        public function preparePayment(Order $order) {
             $options = $this->getOptionsWithLineItems($order);
             $options["PAYMENTREQUEST_0_ITEMAMT"] = urlencode(number_format($order->getTotalPriceBeforeTax(), 2));
             $options["PAYMENTREQUEST_0_TAXAMT"] = urlencode(number_format($order->getTotalTax(), 2));
@@ -96,7 +96,7 @@ namespace PhpPay\PayPal {
             
             $token = $responseData["TOKEN"];
             
-            $payment = new PayPalPreparedPayment($this->requester, $identifyingValue, $this->expressCheckoutUrl, $this->apiUrl, $token, $options["VERSION"], $options["USER"], $options["PWD"], $options["SIGNATURE"]);
+            $payment = new PayPalPreparedPayment($this->requester, $this->expressCheckoutUrl, $this->apiUrl, $token, $options["VERSION"], $options["USER"], $options["PWD"], $options["SIGNATURE"]);
             return $payment;
         }
         

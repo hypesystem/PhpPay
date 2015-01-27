@@ -13,7 +13,7 @@ namespace PhpPay\PayPal {
             return new PayPalPreparedPayment($requester, $dataAsArray["id"], $dataAsArray["checkoutUrl"], $dataAsArray["apiUrl"], $dataAsArray["token"], $dataAsArray["version"], $dataAsArray["user"], $dataAsArray["pwd"], $dataAsArray["signature"]);
         }
         
-        public function __construct($requester, $id, $checkoutUrl, $apiUrl, $token, $version, $user, $pwd, $signature) {
+        public function __construct($requester, $checkoutUrl, $apiUrl, $token, $version, $user, $pwd, $signature) {
             $this->id = $id;
             $this->token = $token;
             $this->checkoutUrl = $checkoutUrl;

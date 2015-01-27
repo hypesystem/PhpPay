@@ -39,8 +39,7 @@ $order = new Order(10, array(
 ));
 $order->addShipping(100);
 
-$paymentId = md5(rand());
-$payment = $paymentHandler->preparePayment($paymentId, $order);
+$payment = $paymentHandler->preparePayment($order);
 
 //We need to save the payment somewhere locally, to get it back later.
 file_put_contents($paymentId.".json", $payment->getSerializedData());
