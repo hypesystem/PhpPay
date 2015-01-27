@@ -1,10 +1,14 @@
 <?php
 
 include "vendor/autoload.php";
+use PhpPay\Order;
 function phpPayAutoloader($class) {
-    $file = "src/$class.php";
-    if(file_exists($file)) {
-        include $file;
+    if(strpos($class, "PhpPay\\") == 0) {
+        $class = substr($class, 7);
+        $file = "src/$class.php";
+        if(file_exists($file)) {
+            include $file;
+        }
     }
 }
 spl_autoload_register("phpPayAutoloader");
