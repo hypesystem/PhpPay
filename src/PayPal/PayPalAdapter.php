@@ -7,7 +7,7 @@ namespace PhpPay\PayPal {
     
     class PayPalAdapter extends PaymentAdapter {
         //TODO: The last arguments here should be named argumeents
-        public function __construct($requester, $returnUrl, $cancelUrl, $options = array(), $identifyingArgumentName = "id", $useSandbox = false) {
+        public function __construct($requester, $returnUrl, $cancelUrl, $options = array(), $useSandbox = false) {
             $this->requester = $requester;
             $this->requireUrl($returnUrl);
             $this->requireUrl($cancelUrl);
@@ -21,8 +21,6 @@ namespace PhpPay\PayPal {
                 $this->expressCheckoutUrl = "https://www.sandbox.paypal.com/cgi-bin/webscr";
             }
             $this->sandbox = $useSandbox;
-            
-            $this->identifyingArgumentName = $identifyingArgumentName;
             
             $this->returnUrl = $returnUrl;
             $this->cancelUrl = $cancelUrl;
@@ -83,8 +81,8 @@ namespace PhpPay\PayPal {
                 $options["PAYMENTREQUEST_0_SHIPPINGAMT"] = urlencode(number_format($order->getShippingPrice(), 2));
             }
             
-            $options["RETURNURL"] = $this->composeReturnUrl($identifyingValue);
-            $options["CANCELURL"] = $this->composeCancelUrl($identifyingValue);
+            $options["RETURNURL"] = $this->returnUrl;
+            $options["CANCELURL"] = $this->cancelUrl;
             $options["METHOD"] = "SetExpressCheckout";
             
             $data = $this->convertOptionsToKeyValueData($options);
@@ -115,31 +113,6 @@ namespace PhpPay\PayPal {
                 $options["L_PAYMENTREQUEST_0_QTY".$i] = urlencode(1);
             }
             return $options;
-        }
-        
-        private function composeReturnUrl($id) {
-            return $this->composeUrl($this->returnUrl, array(
-                $this->identifyingArgumentName => $id
-            ));
-        }
-        
-        private function composeUrl($url, $queries) {
-            //Do something clever...
-            return $url.$this->buildQueryString($queries);
-        }
-        
-        private function buildQueryString($queryMap) {
-            $queryStrings = array();
-            foreach($queryMap as $key => $value) {
-                $queryStrings[] = $key."=".$value;
-            }
-            return "?".implode("&",$queryStrings);
-        }
-        
-        private function composeCancelUrl($id) {
-            return $this->composeUrl($this->cancelUrl, array(
-                $this->identifyingArgumentName => $id
-            ));
         }
         
         private function convertOptionsToKeyValueData($options) {

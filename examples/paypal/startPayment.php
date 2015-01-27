@@ -23,13 +23,13 @@ $thisUrl = $_REQUEST["thisUrl"];
 $requester = new Requester();
 
 // This is the paypal-specific setup part
-$returnUrl = $thisUrl."endPayment.php";
-$cancelUrl = $thisUrl."cancelPayment.php";
+$returnUrl = $thisUrl."endPayment.php?id=".md5(rand());
+$cancelUrl = $thisUrl."cancelPayment.php?id=".md5(rand());
 $paypalAdapter = new PayPalAdapter($requester, $returnUrl, $cancelUrl, array(
     "user" => $_REQUEST["user"],
     "pwd" => $_REQUEST["pwd"],
     "signature" => $_REQUEST["signature"]
-), "id", true);
+), true);
 $paymentHandler = new PaymentHandler($paypalAdapter);
 
 // With this setup, we can prepare a payment (this will be the same for any adapter)
