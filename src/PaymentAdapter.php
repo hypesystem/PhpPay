@@ -1,7 +1,9 @@
 <?php
 
-abstract class PaymentAdapter {
-    
+namespace PhpPay {
+    abstract class PaymentAdapter {
+        
+    }
 }
 
 ?>
