@@ -1,6 +1,10 @@
 <?php
 
 namespace PhpPay\PayPal {
+    
+    use PhpPay\PaymentAdapter;
+    use PhpPay\Order;
+    
     class PayPalAdapter extends PaymentAdapter {
         //TODO: The last arguments here should be named argumeents
         public function __construct($requester, $returnUrl, $cancelUrl, $options = array(), $identifyingArgumentName = "id", $useSandbox = false) {

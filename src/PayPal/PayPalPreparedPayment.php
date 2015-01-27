@@ -1,6 +1,9 @@
 <?php
 
 namespace PhpPay\PayPal {
+    
+    use PhpPay\PreparedPayment;
+    
     class PayPalPreparedPayment extends PreparedPayment {
         public static function fromSerializedData($requester, $serializedData) {
             $dataAsArray = json_decode($serializedData);
