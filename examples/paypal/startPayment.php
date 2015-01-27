@@ -1,10 +1,15 @@
 <?php
 
+use PhpPay\Requester;
+use PhpPay\Order;
+use PhpPay\PayPal\PayPalAdapter;
+use PhpPay\PaymentHandler;
+
 include "../../vendor/autoload.php";
 function phpPayAutoloader($class) {
     if(strpos($class, "PhpPay\\") == 0) {
-        $class = substr($class, 7);
-        $file = "src/$class.php";
+        $class = str_replace("\\", "/", substr($class, 7));
+        $file = "../../src/$class.php";
         if(file_exists($file)) {
             include $file;
         }

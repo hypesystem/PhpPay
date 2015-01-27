@@ -4,7 +4,7 @@ include "vendor/autoload.php";
 use PhpPay\Order;
 function phpPayAutoloader($class) {
     if(strpos($class, "PhpPay\\") == 0) {
-        $class = substr($class, 7);
+        $class = str_replace("\\", "/", substr($class, 7));
         $file = "src/$class.php";
         if(file_exists($file)) {
             include $file;
