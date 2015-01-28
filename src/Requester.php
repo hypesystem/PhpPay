@@ -10,6 +10,7 @@ namespace PhpPay {
             curl_setopt($ch, CURLOPT_POST, 1);
             
             //Tres unsafe, mon ami!
+            //TODO: Fix
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
             
