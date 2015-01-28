@@ -6,8 +6,8 @@ namespace PhpPay {
             $this->adapter = $adapter;
         }
         
-        public function preparePayment($id, Order $order) {
-            return $this->adapter->preparePayment($id, $order);
+        public function preparePayment(Order $order) {
+            return $this->adapter->preparePayment($order);
         }
     }
 }
